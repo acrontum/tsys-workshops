@@ -1,0 +1,5 @@
+output/
+checkpoints/
+assets/
+__pycache__/
+*.py[cod]
