@@ -1,0 +1,7 @@
+result/
+isaac.log
+.browser_state.json
+.desktop_state.json
+.desktop_ready
+.tutorial_caption.json
+desktop_error.txt

@@ -1,0 +1,27 @@
+name: Validate repository
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check shell syntax
+        run: |
+          for script in install.sh Isaac_Sorting_Workshop/open_isaac.sh example2_parallel_rl/workshop.sh; do
+            bash -n "$script"
+          done
+      - name: Check Python syntax
+        run: python3 -m compileall -q .support/tools Isaac_Sorting_Workshop example2_parallel_rl
+      - name: Check dependency validation and repository boundaries
+        run: |
+          python3 -m pip install packaging
+          python3 -m unittest discover -s .support/tests
+      - name: Check ignored runtime and presentation paths
+        run: |
+          git check-ignore .runtime/example Isaac_Sorting_Workshop/result/example
+          git check-ignore example2_parallel_rl/assets/example.usd example2_parallel_rl/checkpoints/example.pth
+          git check-ignore Isaac_Sorting_Workshop/video.mp4 example2_parallel_rl/video.mp4
